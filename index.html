@@ -14,10 +14,10 @@
             --text: #4a2c35;
             --light: #fce8ed;
             --gold: #d4a853;
+            --nav-h: 52px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         html { scroll-behavior: smooth; }
 
         body {
@@ -27,252 +27,213 @@
             overflow-x: hidden;
         }
 
-        /* ── Falling petals ── */
-        .petals-canvas {
+        /* ── Nav: горизонтальний скрол на телефоні ── */
+        nav {
             position: fixed;
-            top: 0; left: 0;
+            top: 0; left: 0; right: 0;
+            z-index: 200;
+            background: rgba(253,246,240,.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--blush);
+            height: var(--nav-h);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-inner {
+            display: flex;
+            gap: 1.4rem;
+            padding: 0 1rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            width: 100%;
+        }
+        .nav-inner::-webkit-scrollbar { display: none; }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dusty);
+            font-size: .7rem;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: color .2s;
+            padding: .3rem 0;
+        }
+        nav a:hover, nav a:active { color: var(--rose); }
+
+        /* ── Petals ── */
+        .petals-canvas {
+            position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            pointer-events: none; z-index: 0;
         }
 
         /* ── Hero ── */
         .hero {
             position: relative;
-            min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 2rem;
-            padding-top: 5.5rem;
+            padding: calc(var(--nav-h) + 2rem) 1.5rem 5rem;
             overflow: hidden;
         }
 
         .hero::before {
             content: '';
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background:
-                    radial-gradient(ellipse 80% 60% at 50% 0%, #fce8ed 0%, transparent 70%),
-                    radial-gradient(ellipse 60% 50% at 10% 100%, #f5c2ce55 0%, transparent 60%),
-                    radial-gradient(ellipse 50% 60% at 90% 80%, #e8738a22 0%, transparent 60%);
+                radial-gradient(ellipse 80% 60% at 50% 0%, #fce8ed 0%, transparent 70%),
+                radial-gradient(ellipse 60% 50% at 10% 100%, #f5c2ce55 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 90% 80%, #e8738a22 0%, transparent 60%);
         }
 
         .hero-tag {
-            font-size: .75rem;
-            letter-spacing: .3em;
-            text-transform: uppercase;
-            color: var(--dusty);
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: fadeUp .8s .3s forwards;
+            font-size: .68rem; letter-spacing: .24em;
+            text-transform: uppercase; color: var(--dusty);
+            margin-bottom: 1.1rem;
+            opacity: 0; animation: fadeUp .8s .3s forwards;
         }
 
         .hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.8rem, 8vw, 6rem);
-            line-height: 1.1;
-            color: var(--text);
-            opacity: 0;
-            animation: fadeUp .9s .5s forwards;
+            font-size: clamp(2.4rem, 11vw, 6rem);
+            line-height: 1.12; color: var(--text);
+            opacity: 0; animation: fadeUp .9s .5s forwards;
         }
-
-        .hero h1 em {
-            font-style: italic;
-            color: var(--rose);
-        }
+        .hero h1 em { font-style: italic; color: var(--rose); }
 
         .hero-sub {
-            margin-top: 1.2rem;
-            font-size: 1.1rem;
-            font-style: italic;
-            color: var(--dusty);
-            max-width: 420px;
-            opacity: 0;
-            animation: fadeUp .9s .7s forwards;
+            margin-top: 1rem; font-size: .98rem;
+            font-style: italic; color: var(--dusty);
+            max-width: 320px;
+            opacity: 0; animation: fadeUp .9s .7s forwards;
         }
 
         .scroll-hint {
-            position: absolute;
-            bottom: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: .4rem;
-            color: var(--dusty);
-            font-size: .75rem;
-            letter-spacing: .15em;
-            text-transform: uppercase;
-            opacity: 0;
-            animation: fadeUp .8s 1.2s forwards;
+            position: absolute; bottom: 2rem;
+            display: flex; flex-direction: column;
+            align-items: center; gap: .4rem;
+            color: var(--dusty); font-size: .66rem;
+            letter-spacing: .15em; text-transform: uppercase;
+            opacity: 0; animation: fadeUp .8s 1.2s forwards;
         }
-
         .scroll-hint span {
-            display: block;
-            width: 1px;
-            height: 40px;
+            display: block; width: 1px; height: 34px;
             background: linear-gradient(to bottom, var(--rose), transparent);
             animation: scrollLine 1.6s ease-in-out infinite;
         }
-
         @keyframes scrollLine {
-            0%, 100% { transform: scaleY(1); opacity: 1; }
+            0%,100% { transform: scaleY(1); opacity: 1; }
             50% { transform: scaleY(.5); opacity: .4; }
         }
 
-        /* ── Section wrapper ── */
+        /* ── Sections ── */
         section {
-            position: relative;
-            z-index: 1;
-            padding: 5rem 1.5rem;
-            scroll-margin-top: 4.5rem;
+            position: relative; z-index: 1;
+            padding: 3.5rem 1rem;
+            scroll-margin-top: var(--nav-h);
         }
 
         .section-label {
-            text-align: center;
-            font-size: .7rem;
-            letter-spacing: .35em;
-            text-transform: uppercase;
-            color: var(--dusty);
-            margin-bottom: .6rem;
+            text-align: center; font-size: .66rem;
+            letter-spacing: .3em; text-transform: uppercase;
+            color: var(--dusty); margin-bottom: .5rem;
         }
 
         .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            text-align: center;
-            color: var(--text);
-            margin-bottom: 3rem;
+            font-size: clamp(1.5rem, 6vw, 2.8rem);
+            text-align: center; color: var(--text); margin-bottom: 2rem;
         }
 
-        /* ── Photo gallery ── */
+        /* ── Gallery ── */
         .gallery-section { background: #fff8f9; }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 1.2rem;
-            max-width: 1000px;
-            margin: 0 auto;
+            grid-template-columns: repeat(2, 1fr);
+            gap: .7rem;
+            max-width: 700px; margin: 0 auto;
+        }
+        @media (min-width: 560px) {
+            .gallery { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
         }
 
         .photo-card {
-            position: relative;
-            border-radius: 18px;
-            overflow: hidden;
-            aspect-ratio: 3/4;
-            background: var(--light);
-            cursor: pointer;
-            box-shadow: 0 4px 20px #e8738a18;
-            transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s;
+            position: relative; border-radius: 14px;
+            overflow: hidden; aspect-ratio: 3/4;
+            background: var(--light); cursor: pointer;
+            box-shadow: 0 3px 14px #e8738a18;
+            transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .photo-card:nth-child(even) { margin-top: 1.8rem; }
-
-        .photo-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 14px 40px #e8738a30;
-        }
+        .photo-card:active { transform: scale(.96); }
 
         .photo-card img {
             width: 100%; height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform .5s ease;
+            object-fit: cover; display: block;
         }
 
-        .photo-card:hover img { transform: scale(1.06); }
-
+        /* caption always visible on mobile */
         .photo-card .caption {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, #4a2c35cc);
-            color: #fff;
-            font-style: italic;
-            font-size: .88rem;
-            padding: 2.5rem 1rem .9rem;
-            transform: translateY(100%);
-            transition: transform .3s ease;
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, #4a2c35bb);
+            color: #fff; font-style: italic; font-size: .75rem;
+            padding: 1.8rem .6rem .6rem;
         }
 
-        .photo-card:hover .caption { transform: translateY(0); }
-
-        /* placeholder when no real image */
         .photo-placeholder {
             width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: .5rem;
-            color: var(--dusty);
-            font-size: .85rem;
-            text-align: center;
-            padding: 1rem;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: .4rem; color: var(--dusty);
+            font-size: .75rem; text-align: center; padding: .7rem;
         }
+        .photo-placeholder .icon { font-size: 1.8rem; }
 
-        .photo-placeholder .icon { font-size: 2.5rem; }
-
-        /* ── Відео ── */
-        .videos-section {
-            background: #fff;
-            border-top: 1px solid var(--blush);
-        }
+        /* ── Videos ── */
+        .videos-section { background: #fff; border-top: 1px solid var(--blush); }
 
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            max-width: 920px;
-            margin: 0 auto;
+            grid-template-columns: 1fr;
+            gap: 1.1rem;
+            max-width: 420px; margin: 0 auto;
+        }
+        @media (min-width: 700px) {
+            .video-grid { grid-template-columns: repeat(2,1fr); max-width: 920px; }
         }
 
         .video-card {
-            background: var(--light);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1.5px solid var(--blush);
-            box-shadow: 0 6px 28px #e8738a14;
-            transition: transform .3s, box-shadow .3s;
-        }
-
-        .video-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 36px #e8738a22;
+            background: var(--light); border-radius: 18px;
+            overflow: hidden; border: 1.5px solid var(--blush);
+            box-shadow: 0 4px 18px #e8738a14;
         }
 
         .video-card video {
-            width: 100%;
-            display: block;
+            width: 100%; display: block;
             background: #1a1014;
-            aspect-ratio: 9 / 16;
-            max-height: min(70vh, 520px);
+            aspect-ratio: 9/16;
+            max-height: 70svh;
             object-fit: contain;
         }
 
         .video-card .video-caption {
-            padding: 1rem 1.1rem 1.15rem;
-            font-size: .9rem;
-            font-style: italic;
-            color: var(--text);
-            text-align: center;
+            padding: .8rem 1rem;
+            font-size: .83rem; font-style: italic;
+            color: var(--text); text-align: center;
             border-top: 1px solid var(--blush);
             background: #fff8f9;
         }
 
-        @media (max-width: 700px) {
-            .video-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .video-card video {
-                max-height: min(65vh, 480px);
-            }
-        }
-
-        /* ── Час разом (живий лічильник) ── */
+        /* ── Together timer ── */
         .together-section {
             background: var(--cream);
             border-top: 1px solid var(--blush);
@@ -280,395 +241,252 @@
         }
 
         .together-panel {
-            max-width: 720px;
-            margin: 0 auto;
-            background: #fff;
-            border: 1.5px solid var(--blush);
-            border-radius: 22px;
-            padding: 2rem 1.5rem 2.25rem;
-            box-shadow: 0 8px 36px #e8738a14;
-            text-align: center;
+            max-width: 440px; margin: 0 auto;
+            background: #fff; border: 1.5px solid var(--blush);
+            border-radius: 20px; padding: 1.5rem .9rem 1.8rem;
+            box-shadow: 0 6px 26px #e8738a14; text-align: center;
         }
 
         .together-since {
-            font-size: .88rem;
-            color: var(--dusty);
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
+            font-size: .8rem; color: var(--dusty);
+            font-style: italic; margin-bottom: 1.1rem; line-height: 1.5;
         }
 
         .together-timer {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: .75rem;
+            gap: .45rem;
         }
 
         .together-unit {
             background: linear-gradient(165deg, var(--light), #fff);
             border: 1px solid var(--blush);
-            border-radius: 16px;
-            padding: 1rem .6rem;
-            min-width: 0;
+            border-radius: 13px; padding: .8rem .25rem;
         }
 
         .together-unit .num {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(1.6rem, 5vw, 2.35rem);
-            font-weight: 700;
-            color: var(--rose);
-            line-height: 1.1;
-            font-variant-numeric: tabular-nums;
+            font-size: clamp(1.4rem, 6.5vw, 2.1rem);
+            font-weight: 700; color: var(--rose);
+            line-height: 1.05; font-variant-numeric: tabular-nums;
         }
 
         .together-unit .unit-label {
-            display: block;
-            margin-top: .4rem;
-            font-size: .68rem;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            color: var(--dusty);
-        }
-
-        @media (max-width: 560px) {
-            .together-timer {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 700px) {
-            .timeline::before {
-                left: 15px;
-                transform: none;
-            }
-            .tl-item {
-                flex-direction: row !important;
-                text-align: left !important;
-                padding-left: .25rem;
-            }
-            .tl-item:nth-child(odd) { flex-direction: row !important; }
-            .tl-dot {
-                margin-left: 0;
-                margin-right: 0;
-            }
-            .photo-card:nth-child(even) { margin-top: 0; }
+            display: block; margin-top: .3rem;
+            font-size: .58rem; letter-spacing: .04em;
+            text-transform: uppercase; color: var(--dusty);
         }
 
         /* ── Lightbox ── */
         .lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #0008;
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+            display: none; position: fixed; inset: 0;
+            background: #000a; z-index: 1000;
+            align-items: center; justify-content: center; padding: 1rem;
         }
-
         .lightbox.open { display: flex; }
-
         .lightbox img {
-            max-width: 90vw;
-            max-height: 85vh;
-            border-radius: 16px;
-            object-fit: contain;
+            max-width: 100%; max-height: 88svh;
+            border-radius: 14px; object-fit: contain;
             box-shadow: 0 20px 80px #0005;
             animation: popIn .3s cubic-bezier(.34,1.56,.64,1);
         }
-
         .lightbox-close {
-            position: absolute;
-            top: 1.5rem; right: 1.5rem;
-            background: #fff3;
-            border: none;
-            color: #fff;
-            font-size: 1.8rem;
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
+            position: absolute; top: 1rem; right: 1rem;
+            background: #fff3; border: none; color: #fff;
+            font-size: 1.4rem; width: 42px; height: 42px;
+            border-radius: 50%; cursor: pointer;
             backdrop-filter: blur(6px);
             display: flex; align-items: center; justify-content: center;
         }
-
         @keyframes popIn {
-            from { transform: scale(.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from { transform: scale(.85); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
         }
 
-        /* ── Reasons / love notes ── */
-        .reasons-section {
-            background: var(--cream);
-        }
+        /* ── Reasons ── */
+        .reasons-section { background: var(--cream); }
 
         .reasons-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.4rem;
-            max-width: 900px;
-            margin: 0 auto;
+            grid-template-columns: 1fr 1fr;
+            gap: .85rem;
+            max-width: 560px; margin: 0 auto;
+        }
+        @media (min-width: 480px) {
+            .reasons-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         .reason-card {
-            background: #fff;
-            border: 1.5px solid var(--blush);
-            border-radius: 20px;
-            padding: 1.6rem 1.4rem;
+            background: #fff; border: 1.5px solid var(--blush);
+            border-radius: 18px; padding: 1.1rem .9rem;
             text-align: center;
             transition: border-color .3s, transform .3s, box-shadow .3s;
-            cursor: default;
         }
-
-        .reason-card:hover {
-            border-color: var(--rose);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px #e8738a18;
+        .reason-card:active {
+            border-color: var(--rose); transform: translateY(-3px);
+            box-shadow: 0 8px 22px #e8738a18;
         }
-
-        .reason-card .emoji { font-size: 2rem; margin-bottom: .7rem; }
-
+        .reason-card .emoji { font-size: 1.6rem; margin-bottom: .45rem; }
         .reason-card p {
-            font-size: .92rem;
-            font-style: italic;
-            color: var(--text);
-            line-height: 1.6;
+            font-size: .8rem; font-style: italic;
+            color: var(--text); line-height: 1.55;
         }
 
-        /* ── Timeline ── */
+        /* ── Timeline — завжди лівий на мобільному ── */
         .timeline-section { background: #fff8f9; }
 
         .timeline {
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 480px; margin: 0 auto;
             position: relative;
+            padding-left: 1.8rem;
         }
-
         .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0; bottom: 0;
-            width: 2px;
+            content: ''; position: absolute;
+            left: 5px; top: 0; bottom: 0; width: 2px;
             background: linear-gradient(to bottom, var(--blush), var(--rose), var(--blush));
-            transform: translateX(-50%);
         }
 
         .tl-item {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-            align-items: flex-start;
+            display: flex; gap: .9rem;
+            margin-bottom: 1.8rem; align-items: flex-start;
         }
 
-        .tl-item:nth-child(odd) { flex-direction: row-reverse; text-align: right; }
-
         .tl-dot {
-            flex-shrink: 0;
-            width: 14px; height: 14px;
-            background: var(--rose);
-            border-radius: 50%;
-            margin-top: .4rem;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 0 0 4px var(--blush);
+            flex-shrink: 0; width: 12px; height: 12px;
+            background: var(--rose); border-radius: 50%;
+            margin-top: .38rem; position: relative; z-index: 1;
+            box-shadow: 0 0 0 3px var(--blush);
+            margin-left: -2.2rem;
         }
 
         .tl-content { flex: 1; }
-
         .tl-date {
-            font-size: .72rem;
-            letter-spacing: .2em;
-            text-transform: uppercase;
-            color: var(--dusty);
-            margin-bottom: .25rem;
+            font-size: .66rem; letter-spacing: .16em;
+            text-transform: uppercase; color: var(--dusty); margin-bottom: .2rem;
         }
-
         .tl-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            color: var(--text);
-            margin-bottom: .3rem;
+            font-size: .98rem; color: var(--text); margin-bottom: .22rem;
         }
-
         .tl-desc {
-            font-size: .85rem;
-            font-style: italic;
-            color: #9a6070;
-            line-height: 1.55;
+            font-size: .8rem; font-style: italic;
+            color: #9a6070; line-height: 1.5;
         }
 
-        /* ── Heart counter ── */
+        /* ── Counter ── */
         .counter-section {
-            background: var(--rose);
-            text-align: center;
-            padding: 4rem 1.5rem;
+            background: var(--rose); text-align: center;
+            padding: 3.5rem 1rem;
         }
-
         .counter-section .section-label { color: #fce8ed; }
-        .counter-section .section-title { color: #fff; margin-bottom: 2rem; }
+        .counter-section .section-title { color: #fff; margin-bottom: 1.8rem; }
 
         .counters {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 3rem;
+            display: flex; justify-content: center;
+            flex-wrap: wrap; gap: 2rem;
         }
-
         .counter-item { color: #fff; }
-
         .counter-number {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            display: block;
-            line-height: 1;
+            font-size: clamp(2.4rem, 12vw, 3.5rem);
+            font-weight: 700; display: block; line-height: 1;
         }
-
         .counter-label {
-            font-size: .8rem;
-            letter-spacing: .2em;
-            text-transform: uppercase;
-            opacity: .85;
-            margin-top: .3rem;
+            font-size: .72rem; letter-spacing: .16em;
+            text-transform: uppercase; opacity: .85; margin-top: .2rem;
         }
 
-        /* ── Music player ── */
-        .music-section {
-            background: var(--cream);
-            text-align: center;
-        }
+        /* ── Player ── */
+        .music-section { background: var(--cream); text-align: center; }
 
         .player {
-            max-width: 340px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 24px;
-            padding: 2rem 1.8rem;
-            box-shadow: 0 8px 40px #e8738a18;
+            max-width: 300px; margin: 0 auto;
+            background: #fff; border-radius: 22px;
+            padding: 1.7rem 1.3rem;
+            box-shadow: 0 8px 36px #e8738a18;
             border: 1.5px solid var(--blush);
         }
 
         .player-art {
-            width: 120px; height: 120px;
+            width: 96px; height: 96px;
             background: linear-gradient(135deg, var(--blush), var(--rose));
             border-radius: 50%;
-            margin: 0 auto 1.2rem;
+            margin: 0 auto 1rem;
             display: flex; align-items: center; justify-content: center;
-            font-size: 3rem;
+            font-size: 2.3rem;
             animation: spin 8s linear infinite paused;
         }
-
         .player-art.playing { animation-play-state: running; }
-
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .player-song {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            color: var(--text);
-        }
-
-        .player-artist {
-            font-size: .82rem;
-            color: var(--dusty);
-            margin-top: .2rem;
-            font-style: italic;
-        }
+        .player-song { font-family: 'Playfair Display', serif; font-size: .98rem; color: var(--text); }
+        .player-artist { font-size: .76rem; color: var(--dusty); margin-top: .18rem; font-style: italic; }
 
         .player-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1.4rem;
-            margin-top: 1.5rem;
+            display: flex; align-items: center;
+            justify-content: center; gap: 1.2rem; margin-top: 1.2rem;
         }
 
         .ctrl-btn {
-            background: none;
-            border: none;
-            color: var(--dusty);
-            font-size: 1.4rem;
-            cursor: pointer;
+            background: none; border: none;
+            color: var(--dusty); font-size: 1.3rem;
+            cursor: pointer; padding: .5rem;
+            -webkit-tap-highlight-color: transparent;
             transition: color .2s, transform .2s;
         }
-
-        .ctrl-btn:hover { color: var(--rose); transform: scale(1.2); }
+        .ctrl-btn:active { color: var(--rose); transform: scale(1.2); }
 
         .ctrl-btn.play {
-            background: var(--rose);
-            color: #fff;
-            width: 52px; height: 52px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            display: flex; align-items: center; justify-content: center;
+            background: var(--rose); color: #fff;
+            width: 52px; height: 52px; border-radius: 50%;
+            font-size: 1.2rem; display: flex;
+            align-items: center; justify-content: center;
             box-shadow: 0 4px 16px #e8738a50;
         }
 
-        .ctrl-btn.play:hover { background: var(--dusty); transform: scale(1.08); }
-
-        /* ── Secret message ── */
-        .secret-section {
-            background: #fff8f9;
-            text-align: center;
-        }
+        /* ── Secret ── */
+        .secret-section { background: #fff8f9; text-align: center; }
 
         .secret-box {
-            max-width: 480px;
-            margin: 0 auto;
+            max-width: 400px; margin: 0 auto;
             background: var(--cream);
             border: 1.5px dashed var(--blush);
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
-            position: relative;
+            border-radius: 20px; padding: 1.8rem 1.2rem;
         }
 
         .secret-box p {
             font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: var(--text);
-            filter: blur(6px);
-            transition: filter .6s ease;
+            font-style: italic; font-size: 1rem;
+            line-height: 1.8; color: var(--text);
+            filter: blur(6px); transition: filter .6s ease;
             user-select: none;
         }
-
         .secret-box p.revealed { filter: blur(0); user-select: text; }
 
         .reveal-btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: .7rem 2rem;
-            background: var(--rose);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Lora', serif;
-            font-size: .9rem;
-            cursor: pointer;
-            transition: background .25s, transform .25s;
+            display: inline-block; margin-top: 1.3rem;
+            padding: .8rem 1.8rem;
+            background: var(--rose); color: #fff;
+            border: none; border-radius: 50px;
+            font-family: 'Lora', serif; font-size: .9rem;
+            cursor: pointer; min-height: 48px;
+            -webkit-tap-highlight-color: transparent;
+            transition: background .25s;
         }
-
-        .reveal-btn:hover { background: var(--dusty); transform: scale(1.04); }
+        .reveal-btn:active { background: var(--dusty); }
 
         /* ── Footer ── */
         footer {
-            text-align: center;
-            padding: 3rem 1.5rem;
+            text-align: center; padding: 2.8rem 1.5rem;
             background: var(--cream);
-            font-size: .82rem;
-            color: var(--dusty);
-            font-style: italic;
+            font-size: .78rem; color: var(--dusty); font-style: italic;
         }
-
         footer .big-heart {
-            font-size: 2.5rem;
-            display: block;
-            margin-bottom: .8rem;
+            font-size: 2.2rem; display: block; margin-bottom: .8rem;
             animation: heartbeat 1.4s ease-in-out infinite;
         }
-
         @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
+            0%,100% { transform: scale(1); }
             20% { transform: scale(1.18); }
             40% { transform: scale(1); }
             60% { transform: scale(1.10); }
@@ -676,128 +494,83 @@
 
         /* ── Animations ── */
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity .7s ease, transform .7s ease;
+            opacity: 0; transform: translateY(22px);
+            transition: opacity .65s ease, transform .65s ease;
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
-
-        /* ── Nav ── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            padding: 1rem;
-            background: rgba(253,246,240,.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--blush);
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--dusty);
-            font-size: .78rem;
-            letter-spacing: .2em;
-            text-transform: uppercase;
-            transition: color .2s;
-        }
-
-        nav a:hover { color: var(--rose); }
     </style>
 </head>
 <body>
 
-<!-- Навігація -->
 <nav>
-    <a href="#gallery">Фото</a>
-    <a href="#videos">Відео</a>
-    <a href="#together">Час разом</a>
-    <a href="#reasons">Причини</a>
-    <a href="#timeline">Хронологія</a>
-    <a href="#music">Пісня</a>
-    <a href="#secret">Секрет</a>
+    <div class="nav-inner">
+        <a href="#gallery">Фото</a>
+        <a href="#videos">Відео</a>
+        <a href="#together">Разом</a>
+        <a href="#reasons">Причини</a>
+        <a href="#timeline">Хронологія</a>
+        <a href="#music">Пісня</a>
+        <a href="#secret">Секрет</a>
+    </div>
 </nav>
 
-<!-- Падаючі пелюстки -->
 <canvas class="petals-canvas" id="petals"></canvas>
 
-<!-- Hero -->
 <section class="hero">
     <p class="hero-tag">зроблено з любов'ю · для Анютика</p>
     <h1>Ти моя<br/><em>найулюбленіша</em><br/>людина</h1>
     <p class="hero-sub">Цей маленький куточок інтернету — тільки для тебе 🌸</p>
-    <div class="scroll-hint">
-        гортай вниз
-        <span></span>
-    </div>
+    <div class="scroll-hint">гортай вниз<span></span></div>
 </section>
 
-<!-- Галерея -->
 <section class="gallery-section" id="gallery">
     <p class="section-label reveal">наші спогади</p>
     <h2 class="section-title reveal">Фотогалерея 📸</h2>
     <div class="gallery">
-
-        <!--
-          ЯК ВСТАВИТИ фото: поклади файли поруч із цим HTML або в папку photos/
-          і в атрибуті src вкажи ім’я файлу, напр. src="photos/01.jpg"
-          Підпис змінюй у <div class="caption">…</div> під кожним фото.
-          Якщо ще немає файлу — видали рядок <img …> і тимчасово розкоментуй блок .photo-placeholder нижче в тій же картці.
-        -->
-
-        <!-- 1 — НАШЕ ПЕРШЕ ФОТО: заміни src на свій файл -->
         <div class="photo-card reveal">
             <img src="IMG_0043.jpg" alt="Наше перше фото разом" />
-            <div class="caption">Наше перше фото ✨ </div>
+            <div class="caption">Наше перше фото ✨</div>
         </div>
-
         <div class="photo-card reveal">
             <img src="IMG_0998.JPG" alt="Фото 2" />
             <div class="caption">Наша перша поїздка 🌅</div>
         </div>
-
         <div class="photo-card reveal">
             <img src="IMG_1002.JPG" alt="Найсмачніші млинці" />
             <div class="caption">Найсмачніші млинці 💫</div>
         </div>
-
         <div class="photo-card reveal">
             <img src="IMG_1112.JPG" alt="Фото 4" />
             <div class="caption">Міські прогулянки 🥰</div>
         </div>
-
         <div class="photo-card reveal">
             <img src="IMG_1131.JPG" alt="Фото 5" />
             <div class="caption"></div>
         </div>
-
         <div class="photo-card reveal">
             <img src="IMG_1152.JPG" alt="Фото 6" />
             <div class="caption"></div>
         </div>
-
         <div class="photo-card reveal">
             <img src="IMG_1188.JPG" alt="Фото 7" />
             <div class="caption"></div>
         </div>
-
         <div class="photo-card reveal">
             <img src="IMG_1180.JPG" alt="Фото 8" />
             <div class="caption"></div>
         </div>
-
+        <div class="photo-card reveal">
+            <img src="IMG_0797.JPG" alt="Фото 9" />
+            <div class="caption"></div>
+        </div>
     </div>
 </section>
 
-<!-- Два останні відео (файли лежать у тій самій папці, що і цей HTML) -->
 <section class="videos-section" id="videos">
     <p class="section-label reveal">живі моменти</p>
     <h2 class="section-title reveal">Наші відео 🎬</h2>
@@ -805,27 +578,23 @@
         <figure class="video-card reveal">
             <video controls playsinline preload="metadata">
                 <source src="-8931465685724533556.MP4" type="video/mp4" />
-                Відкрий сторінку в браузері, який підтримує відео MP4.
             </video>
             <figcaption class="video-caption"></figcaption>
         </figure>
         <figure class="video-card reveal">
             <video controls playsinline preload="metadata">
                 <source src="2335637420110450909.MP4" type="video/mp4" />
-                Відкрий сторінку в браузері, який підтримує відео MP4.
             </video>
             <figcaption class="video-caption"></figcaption>
         </figure>
     </div>
 </section>
 
-<!-- Lightbox -->
 <div class="lightbox" id="lightbox">
     <button class="lightbox-close" id="lightbox-close">✕</button>
     <img id="lightbox-img" src="" alt="" />
 </div>
 
-<!-- З моменту зустрічі — лічильник оновлюється щосекунди (дату зміни в скрипті TOGETHER_START) -->
 <section class="together-section" id="together">
     <p class="section-label reveal">відліку немає кінця</p>
     <h2 class="section-title reveal">Ми разом уже 💌</h2>
@@ -852,40 +621,19 @@
     </div>
 </section>
 
-<!-- Причини -->
 <section class="reasons-section" id="reasons">
     <p class="section-label reveal">за що я тебе люблю</p>
     <h2 class="section-title reveal">Ось декілька причин 💌</h2>
     <div class="reasons-grid">
-        <!-- Редагуй текст на свій смак! -->
-        <div class="reason-card reveal">
-            <div class="emoji">😂</div>
-            <p>За твій сміх — він заряджає мене краще за каву</p>
-        </div>
-        <div class="reason-card reveal">
-            <div class="emoji">🧠</div>
-            <p>За те, що ти розумна та думаєш по-своєму</p>
-        </div>
-        <div class="reason-card reveal">
-            <div class="emoji">💪</div>
-            <p>За твою силу — ти завжди справляєшся</p>
-        </div>
-        <div class="reason-card reveal">
-            <div class="emoji">🎨</div>
-            <p>За те, що бачиш красу там, де інші не помічають</p>
-        </div>
-        <div class="reason-card reveal">
-            <div class="emoji">🌙</div>
-            <p>За те, що з тобою навіть нудний вечір стає особливим</p>
-        </div>
-        <div class="reason-card reveal">
-            <div class="emoji">🐾</div>
-            <p>За твою доброту до всіх — людей і тварин</p>
-        </div>
+        <div class="reason-card reveal"><div class="emoji">😂</div><p>За твій сміх — він заряджає мене краще за каву</p></div>
+        <div class="reason-card reveal"><div class="emoji">🧠</div><p>За те, що ти розумна та думаєш по-своєму</p></div>
+        <div class="reason-card reveal"><div class="emoji">💪</div><p>За твою силу — ти завжди справляєшся</p></div>
+        <div class="reason-card reveal"><div class="emoji">🎨</div><p>За те, що бачиш красу там, де інші не помічають</p></div>
+        <div class="reason-card reveal"><div class="emoji">🌙</div><p>За те, що з тобою навіть нудний вечір стає особливим</p></div>
+        <div class="reason-card reveal"><div class="emoji">🐾</div><p>За твою доброту до всіх — людей і тварин</p></div>
     </div>
 </section>
 
-<!-- Таймлайн -->
 <section class="timeline-section" id="timeline">
     <p class="section-label reveal">наша маленька історія</p>
     <h2 class="section-title reveal">Як це все починалось 🌿</h2>
@@ -917,7 +665,6 @@
     </div>
 </section>
 
-<!-- Лічильник -->
 <section class="counter-section" id="counters">
     <p class="section-label">у цифрах</p>
     <h2 class="section-title">Наші числа 💖</h2>
@@ -931,37 +678,33 @@
             <span class="counter-label">усмішок</span>
         </div>
         <div class="counter-item">
-            <span class="counter-number" data-target="∞" data-special="true">∞</span>
+            <span class="counter-number" data-special="true">∞</span>
             <span class="counter-label">любові</span>
         </div>
     </div>
 </section>
 
-<!-- Музика -->
 <section class="music-section" id="music">
     <p class="section-label reveal">для настрою</p>
     <h2 class="section-title reveal">Наша пісня 🎵</h2>
     <div class="player reveal">
         <div class="player-art" id="player-art">🎵</div>
-        <!-- Змінюй назву і виконавця -->
-        <p class="player-song" id="song-name">Назва пісні 1</p>
+        <p class="player-song" id="song-name">The Weeknd – Stargirl Interlude</p>
         <p class="player-artist" id="song-artist">The Weeknd та Lana Del Rey</p>
         <audio id="audio" preload="metadata" playsinline src="05992e3007d8c2a5c0a4ca090bd63f22.mp3"></audio>
         <div class="player-controls">
-            <button class="ctrl-btn" id="prev-btn" title="Назад">⏮</button>
-            <button class="ctrl-btn play" id="play-btn" title="Грати">▶</button>
-            <button class="ctrl-btn" id="next-btn" title="Далі">⏭</button>
+            <button class="ctrl-btn" id="prev-btn">⏮</button>
+            <button class="ctrl-btn play" id="play-btn">▶</button>
+            <button class="ctrl-btn" id="next-btn">⏭</button>
         </div>
     </div>
 </section>
 
-<!-- Секретне повідомлення -->
 <section class="secret-section" id="secret">
     <p class="section-label reveal">тільки для тебе</p>
     <h2 class="section-title reveal">Секретне послання 🔐</h2>
     <div class="secret-box reveal">
         <p id="secret-text">
-            <!-- Змінюй цей текст на свої слова! -->
             Ти — найдорожча людина у моєму житті.
             Я не знаю всіх правильних слів, але знаю одне:
             коли ти поруч — мені добре. І я хочу, щоб тобі теж завжди було добре.
@@ -971,56 +714,44 @@
     </div>
 </section>
 
-<!-- Footer -->
 <footer>
     <span class="big-heart">💗</span>
     зроблено з любов'ю · тільки для тебе · назавжди твій
 </footer>
 
 <script>
-    /* ── Falling petals ── */
+    /* ── Petals ── */
     const canvas = document.getElementById('petals');
     const ctx = canvas.getContext('2d');
     let petals = [];
 
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
+    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+    resize(); window.addEventListener('resize', resize);
 
-    const PETAL_CHARS = ['🌸', '🌹', '💕', '✨', '🍃'];
-
+    const CHARS = ['🌸','🌹','💕','✨','🍃'];
     function spawnPetal() {
         petals.push({
-            x: Math.random() * canvas.width,
-            y: -30,
-            size: 14 + Math.random() * 12,
-            speed: .6 + Math.random() * 1,
-            drift: (Math.random() - .5) * .8,
+            x: Math.random() * canvas.width, y: -28,
+            size: 12 + Math.random() * 10,
+            speed: .5 + Math.random() * .85,
+            drift: (Math.random() - .5) * .65,
             angle: Math.random() * Math.PI * 2,
-            spin: (Math.random() - .5) * .04,
-            char: PETAL_CHARS[Math.floor(Math.random() * PETAL_CHARS.length)],
-            opacity: .5 + Math.random() * .5
+            spin: (Math.random() - .5) * .033,
+            char: CHARS[Math.floor(Math.random() * CHARS.length)],
+            opacity: .44 + Math.random() * .5
         });
     }
-
     function animatePetals() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (Math.random() < .04) spawnPetal();
-        petals = petals.filter(p => p.y < canvas.height + 40);
+        if (Math.random() < .032) spawnPetal();
+        petals = petals.filter(p => p.y < canvas.height + 36);
         for (const p of petals) {
-            p.y += p.speed;
-            p.x += p.drift;
-            p.angle += p.spin;
+            p.y += p.speed; p.x += p.drift; p.angle += p.spin;
             ctx.save();
             ctx.globalAlpha = p.opacity;
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.angle);
+            ctx.translate(p.x, p.y); ctx.rotate(p.angle);
             ctx.font = `${p.size}px serif`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
             ctx.fillText(p.char, 0, 0);
             ctx.restore();
         }
@@ -1028,198 +759,112 @@
     }
     animatePetals();
 
-    /* ── Scroll reveal ── */
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('visible');
-                observer.unobserve(e.target);
-            }
-        });
-    }, { threshold: .12 });
+    /* ── Reveal on scroll ── */
+    const obs = new IntersectionObserver((es) => {
+        es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: .1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    /* ── Час разом (реальний час) ── */
-    // Зміни рядок нижче на дату/час, з якого рахуєте «разом» (місцевий час браузера).
+    /* ── Together timer ── */
     const TOGETHER_START = new Date('2025-06-25T15:00:00');
-
     function uaPlural(n, one, few, many) {
-        n = Math.abs(n) % 100;
-        const n1 = n % 10;
+        n = Math.abs(n) % 100; const n1 = n % 10;
         if (n > 10 && n < 20) return many;
         if (n1 > 1 && n1 < 5) return few;
         if (n1 === 1) return one;
         return many;
     }
-
-    function formatTogetherSince(d) {
-        const opts = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
-        try {
-            return d.toLocaleDateString('uk-UA', opts);
-        } catch (e) {
-            return d.toLocaleString('uk-UA');
-        }
-    }
-
     function tickTogether() {
-        const now = new Date();
-        let ms = now - TOGETHER_START;
-        const sinceEl = document.getElementById('together-since-line');
-        const counterDaysEl = document.getElementById('counter-days-together');
-        if (ms < 0) {
-            sinceEl.textContent = 'Дата ще попереду — перевір TOGETHER_START у коді.';
-            document.getElementById('t-days').textContent = '0';
-            document.getElementById('t-hours').textContent = '0';
-            document.getElementById('t-mins').textContent = '0';
-            document.getElementById('t-secs').textContent = '0';
-            if (counterDaysEl) counterDaysEl.textContent = '0';
-            return;
-        }
+        const ms = Date.now() - TOGETHER_START;
+        const el = id => document.getElementById(id);
+        if (ms < 0) { el('together-since-line').textContent = ''; return; }
         const sec = Math.floor(ms / 1000);
-        const days = Math.floor(sec / 86400);
-        const hours = Math.floor((sec % 86400) / 3600);
-        const mins = Math.floor((sec % 3600) / 60);
-        const secs = sec % 60;
-
-        document.getElementById('t-days').textContent = String(days);
-        document.getElementById('t-hours').textContent = String(hours);
-        document.getElementById('t-mins').textContent = String(mins);
-        document.getElementById('t-secs').textContent = String(secs);
-
-        document.getElementById('t-days-lbl').textContent = uaPlural(days, 'день', 'дні', 'днів');
-        document.getElementById('t-hours-lbl').textContent = uaPlural(hours, 'година', 'години', 'годин');
-        document.getElementById('t-mins-lbl').textContent = uaPlural(mins, 'хвилина', 'хвилини', 'хвилин');
-        document.getElementById('t-secs-lbl').textContent = uaPlural(secs, 'секунда', 'секунди', 'секунд');
-
-        sinceEl.textContent = 'Рахуємо від ' + formatTogetherSince(TOGETHER_START);
-        if (counterDaysEl) counterDaysEl.textContent = String(days);
+        const d = Math.floor(sec / 86400);
+        const h = Math.floor((sec % 86400) / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+        const s = sec % 60;
+        el('t-days').textContent  = d; el('t-days-lbl').textContent  = uaPlural(d, 'день','дні','днів');
+        el('t-hours').textContent = h; el('t-hours-lbl').textContent = uaPlural(h, 'година','години','годин');
+        el('t-mins').textContent  = m; el('t-mins-lbl').textContent  = uaPlural(m, 'хвилина','хвилини','хвилин');
+        el('t-secs').textContent  = s; el('t-secs-lbl').textContent  = uaPlural(s, 'секунда','секунди','секунд');
+        try {
+            el('together-since-line').textContent = 'Рахуємо від ' +
+                TOGETHER_START.toLocaleDateString('uk-UA', { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
+        } catch(e) {}
+        const cd = document.getElementById('counter-days-together');
+        if (cd) cd.textContent = String(d);
     }
+    tickTogether(); setInterval(tickTogether, 1000);
 
-    tickTogether();
-    setInterval(tickTogether, 1000);
-
-    /* ── Фото: якщо файлу ще нема — показуємо акуратний плейсхолдер замість зламаної іконки ── */
+    /* ── Photo error → placeholder ── */
     document.querySelectorAll('.photo-card img').forEach(img => {
-        img.addEventListener('error', function once() {
-            img.removeEventListener('error', once);
+        img.addEventListener('error', () => {
             const card = img.closest('.photo-card');
-            const caption = card.querySelector('.caption');
+            const cap  = card.querySelector('.caption');
             img.remove();
             const ph = document.createElement('div');
             ph.className = 'photo-placeholder';
-            ph.innerHTML = '<span class="icon">📷</span><span>Поклади файл поруч і вкажи той самий src у коді</span>';
-            card.insertBefore(ph, caption);
+            ph.innerHTML = '<span class="icon">📷</span><span>Поклади файл поруч з HTML</span>';
+            card.insertBefore(ph, cap);
         }, { once: true });
     });
 
     /* ── Lightbox ── */
-    const lightbox = document.getElementById('lightbox');
+    const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
-
-    function bindLightbox(img) {
-        img.addEventListener('click', () => {
-            lbImg.src = img.src;
-            lbImg.alt = img.alt;
-            lightbox.classList.add('open');
-        });
-    }
-
-    document.querySelectorAll('.photo-card img').forEach(bindLightbox);
-
-    document.getElementById('lightbox-close').addEventListener('click', () => {
-        lightbox.classList.remove('open');
+    document.querySelectorAll('.photo-card img').forEach(img => {
+        img.addEventListener('click', () => { lbImg.src = img.src; lbImg.alt = img.alt; lb.classList.add('open'); });
     });
+    document.getElementById('lightbox-close').addEventListener('click', () => lb.classList.remove('open'));
+    lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
 
-    lightbox.addEventListener('click', e => {
-        if (e.target === lightbox) lightbox.classList.remove('open');
-    });
-
-    /* ── Counter animation ── */
+    /* ── Counters ── */
     function animateCounter(el) {
-        if (el.dataset.special) return;
-        if (el.dataset.togetherDays) return;
+        if (el.dataset.special || el.dataset.togetherDays) return;
         const target = parseInt(el.dataset.target, 10);
-        const duration = 1800;
-        const start = performance.now();
-        function step(now) {
-            const progress = Math.min((now - start) / duration, 1);
-            const ease = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.round(ease * target);
-            if (progress < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
+        const t0 = performance.now();
+        (function step(now) {
+            const p = Math.min((now - t0) / 1800, 1);
+            el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target);
+            if (p < 1) requestAnimationFrame(step);
+        })(t0);
     }
+    new IntersectionObserver((es) => {
+        es.forEach(e => { if (e.isIntersecting) document.querySelectorAll('.counter-number').forEach(animateCounter); });
+    }, { threshold: .4 }).observe(document.querySelector('.counter-section'));
 
-    const counterObs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                document.querySelectorAll('.counter-number').forEach(animateCounter);
-                counterObs.disconnect();
-            }
-        });
-    }, { threshold: .4 });
-
-    counterObs.observe(document.querySelector('.counter-section'));
-
-    /* ── Player (кнопка керує справжнім <audio id="audio">) ── */
-    const playBtn = document.getElementById('play-btn');
+    /* ── Player ── */
+    const playBtn   = document.getElementById('play-btn');
     const playerArt = document.getElementById('player-art');
-    const audioEl = document.getElementById('audio');
-
+    const audioEl   = document.getElementById('audio');
     const songs = [
         { name: 'The Weeknd – Stargirl Interlude', artist: 'The Weeknd та Lana Del Rey', src: '05992e3007d8c2a5c0a4ca090bd63f22.mp3' },
-        // Друга пісня: додай src: 'інший.mp3' і розкоментуй рядок нижче
-        // { name: 'Назва пісні 2', artist: 'Виконавець 2', src: 'song2.mp3' },
     ];
     let songIdx = 0;
 
-    function syncPlayUi(playing) {
-        playBtn.textContent = playing ? '⏸' : '▶';
-        playerArt.classList.toggle('playing', playing);
-    }
-
+    function syncUI(p) { playBtn.textContent = p ? '⏸' : '▶'; playerArt.classList.toggle('playing', p); }
     function loadSong(i) {
-        songIdx = i;
-        const s = songs[i];
-        document.getElementById('song-name').textContent = s.name;
+        const s = songs[songIdx = i];
+        document.getElementById('song-name').textContent   = s.name;
         document.getElementById('song-artist').textContent = s.artist;
-        if (audioEl) {
-            audioEl.pause();
-            if (s.src) audioEl.src = s.src;
-        }
-        syncPlayUi(false);
+        if (audioEl) { audioEl.pause(); if (s.src) audioEl.src = s.src; }
+        syncUI(false);
     }
     loadSong(0);
 
     playBtn.addEventListener('click', () => {
-        if (!audioEl) return;
-        const s = songs[songIdx];
-        if (!s.src) return;
-        if (audioEl.paused) {
-            audioEl.play().catch(() => syncPlayUi(false));
-        } else {
-            audioEl.pause();
-        }
+        if (!audioEl || !songs[songIdx].src) return;
+        audioEl.paused ? audioEl.play().catch(() => syncUI(false)) : audioEl.pause();
     });
-
     if (audioEl) {
-        audioEl.addEventListener('play', () => syncPlayUi(true));
-        audioEl.addEventListener('pause', () => syncPlayUi(false));
-        audioEl.addEventListener('ended', () => syncPlayUi(false));
+        audioEl.addEventListener('play',  () => syncUI(true));
+        audioEl.addEventListener('pause', () => syncUI(false));
+        audioEl.addEventListener('ended', () => syncUI(false));
     }
+    document.getElementById('next-btn').addEventListener('click', () => loadSong((songIdx+1)%songs.length));
+    document.getElementById('prev-btn').addEventListener('click', () => loadSong((songIdx-1+songs.length)%songs.length));
 
-    document.getElementById('next-btn').addEventListener('click', () => {
-        songIdx = (songIdx + 1) % songs.length;
-        loadSong(songIdx);
-    });
-
-    document.getElementById('prev-btn').addEventListener('click', () => {
-        songIdx = (songIdx - 1 + songs.length) % songs.length;
-        loadSong(songIdx);
-    });
-
-    /* ── Secret reveal ── */
+    /* ── Secret ── */
     document.getElementById('reveal-btn').addEventListener('click', function() {
         document.getElementById('secret-text').classList.add('revealed');
         this.textContent = '💌 Прочитано з любов\u2019ю';
